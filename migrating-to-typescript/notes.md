@@ -3,11 +3,6 @@
 
 ## TODO
 
-Be prepared to show other issues that will come up when migrating to TS
-  Write up examples
-
-Copy over other demos into 'other-demos' folder
-
 Review how you can generate documentation from JSDoc comments
 	https://www.npmjs.com/package/jsdoc
 

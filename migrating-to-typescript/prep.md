@@ -7,3 +7,5 @@
 * Open both main demos into their own desktop
 * Verify WiFi
 * Open slides in Chrome
+* Open notes on Surface Book
+* Disable notifications on both machines

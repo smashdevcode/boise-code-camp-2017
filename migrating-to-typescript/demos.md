@@ -5,8 +5,8 @@
 
 * The demo app is an ASP.NET Core configured to serve static files
 * The app is intentionally simple and small
-* Please imagine that this is just a slice of a much bigger application
-* Multiply everything that we see by a factor of 10
+ * Please imagine that this is just a slice of a much bigger application
+ * Multiply everything that we see by a factor of 10
 * JavaScript files
  * Models... Version and Framework... one ES2015 class and one constructor function
  * data.js... provides the `getData` method
@@ -20,6 +20,7 @@
 Let's take a look at the JS editor in VS Code
 
 * Hover over a function and see information about that item
+ * What is the `: any` notation?
 * Navigate to the definition of an item in the same file
 * Navigate to the definition of an item in a different file... as long as the file is open
 
@@ -92,6 +93,7 @@ And now we have IntelliSense for jQuery!
  * That's probably not what the author of this function intended
 * We can use JSDoc comments to refine the data types
  * This helps us express the intent of our code
+ * We also get better IntelliSense
 
 ```
 /**
