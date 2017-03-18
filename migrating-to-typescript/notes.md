@@ -3,49 +3,28 @@
 
 ## TODO
 
-Determine which project to use
-  ASP.NET Core project???
-  Just a simple web app project???
 
-Take more time with the language overview section
-  Spend more time on classes???
-  Spend more time on namespaces and/or modules???
 
-Demos
-  Project overview
-    Explain the ASP.NET Core project choice
-      Eventually I'll have an API to serve data for my app
-      Take the time to build out an API???
-  Add back the bit about the jsconfig.json file???    
-    Or just use the tsconfig.json file directly???
-    Probably need to show the jsconfig.json file
-      Without this VS Code won't be able to discover other JS files in your project
-      Point out the VS Proper doesn't have this problem
-        It behaves like there's a "virtual" jsconfig.json file in the your project
-  Show how to generate source maps in order to debug in Chrome Dev Tools???
-  Take the time to wrap my code in namespaces???
-  Building TS
-    Show how to build from the command line
-    Show how to initiate a build from VS Code
-    Show how to initiate a build as a .NET Core project precompile event
+Building TS
+  Show how to build from the command line
+  Show how to initiate a build from VS Code
+  Show how to initiate a build as a .NET Core project precompile event
 
-Extra Demos
-  Be prepared to show...
-    Other issues that will come up when migrating to TS
-    Strict null checking
-    Async/await
+Show how to generate source maps in order to debug in Chrome Dev Tools
 
-Slides
-  Talk about improving our code by adding in webpack and converting to use modules
-    Or show this???
-  Emphasize at the end that adding TypeScript does not negate the need for unit testing
-  Review VS Launch slides
-    Anything to add to my Keynote slides???
+Do a runthrough and make sure that everything works
 
-Switch to using Keynote for the slides
+Be prepared to show other issues that will come up when migrating to TS
+  Write up examples
+
+
+
+
 
 Review how you can generate documentation from JSDoc comments
 	https://www.npmjs.com/package/jsdoc
+
+
 
 
 

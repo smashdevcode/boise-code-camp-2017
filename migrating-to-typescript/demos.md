@@ -11,42 +11,75 @@
  * Models... Version and Framework... one ES2015 class and one constructor function
  * data.js... provides the `getData` method
  * app.js... calls the `getData` method, builds up a string of HTML, and appends that string to the DOM
+* The app is using jQuery...
+ * Though not in a very interesting way
+ * Mostly just as a way to show you the support that VS Code gives you for external libraries
 
-## Improved JS Editor in VS 2017
+## JS Editor in VS Code
 
-Let's start by taking a look at the improved JS editor in VS 2017
+Let's take a look at the JS editor in VS Code
 
 * Hover over a function and see information about that item
 * Navigate to the definition of an item in the same file
-* Navigate to the definition of an item in a different file... without having to add a reference (i.e. `/// <reference path="data.js" />`)
+* Navigate to the definition of an item in a different file... as long as the file is open
+
+How do we fix this?
+
+## JavaScript Project
+
+Add a `jsconfig.json` file to the root of the project
+
+```
+{
+	"compilerOptions": {
+		"target": "es6"
+	},
+	"include": [
+		"wwwroot/scripts"
+	]
+}
+```
+
+And now we can navigate to items in files that aren't currently open!
+
+## More JS Editor in VS Code
+
 * Peek the definition
 * Find all references
  * Show what happens if we try to use a string-based search to find all references to one of the name properties
  * Symbol-based
-* "Go To" can be used to navigate to JS items
 * Renaming support
 
 ## IntelliSense for External Libraries
 
-VS will also provide us with IntelliSense for external libraries like jQuery
+VS Code will also provide us with IntelliSense for external libraries like jQuery
 
-* This works for...
- * package.json packages
- * bower.json packages
- * Or loose files in your project that match a list of ~400 popular JS libraries
+* Automatic type acquisition works for any packages listed in your package.json file
+* We're currently using Bower to manage our client-side packages so we'll need to explicitly list the packages that we want to acquire typings for
 
-## VS 2017 JS Editor and the TypeScript Language Service
+```
+"typeAcquisition": {
+  "include": [
+	  "jquery"
+	]
+}
+```
 
-* So, how is VS able to do all of this?
+And now we have IntelliSense for jQuery!
+
+## VS Code JS Editor and the TypeScript Language Service
+
+* So, how is VS Code able to do all of this?
 * In addition to a compiler, TypeScript provides a language service that can be used by editors or IDEs to introspect into your code
 * The TypeScript Language Service is being used to supercharge the JS editor
  * That's how the IntelliSense is working... it's not just a simple autocomplete, i.e. you've typed this before
  * That's also how refactoring is being supported
 * This is being done for us automatically, under the covers... without having to compile our code
+* VS 2017 Proper now uses the TS Language Service
 
 ## Refining Type Information - Part 1
 
-* When we hover over a function VS will display information about that item
+* When we hover over a function VS Code will display information about that item
 * The keywords after the colons ":" indicate the expected data types
 * Notice that the function parameters are marked as `any`
  * This means that we can pass any data type
@@ -62,14 +95,13 @@ VS will also provide us with IntelliSense for external libraries like jQuery
  */
 ```
 
-## Creating a TypeScript Project
+## Down-level Compilation
 
 We can benefit further from TypeScript by leveraging the TypeScript compiler
 
 * Move input files into a "Client" folder
-* Add tsconfig.json file to the root of the project to configure the TypeScript compiler  
+* Update the `jsconfig.json` file
  * Set `target` to `es5` to downlevel compile our JS files
- * Set `allowJs` compiler option to `true`
  * Set `outDir` to the output folder `wwwroot/scripts`
  * Add `include` property and include the "Client" folder
 
@@ -77,7 +109,6 @@ We can benefit further from TypeScript by leveraging the TypeScript compiler
 {
 	"compilerOptions": {
 		"target": "es5",
-		"allowJs": true,
 		"outDir": "wwwroot/scripts"
 	},
 	"include": [
@@ -86,11 +117,22 @@ We can benefit further from TypeScript by leveraging the TypeScript compiler
 }
 ```
 
-Build your project to compile your TypeScript files to JavaScript.
+And to compile the JS project, run this command:
 
-_Note: If you get a "Duplicate Content items" build error, edit your project's csproj file and manually remove the duplicate Content items_
+```
+tsc -p jsconfig.json
+```
 
-_Note: If you open one of the generated JS files, be sure to close it. If you don't, that file won't get updated on subsequent builds._
+
+
+TODO Building TS
+  Show how to build from the command line
+  Show how to initiate a build from VS Code
+  Show how to initiate a build as a .NET Core project precompile event???
+
+
+
+
 
 ## Benefits
 
@@ -102,7 +144,8 @@ _Note: If you open one of the generated JS files, be sure to close it. If you do
 
 ## Why Migrate to TypeScript?
 
-* We can still make mistakes
+* Things seem to be working pretty well... why would we migrate to TS???
+* Well, we can still make mistakes
 * Leaving our code in JS files doesn't allow the compiler to report those errors
 
 ## Introducing TypeScript
@@ -123,6 +166,8 @@ _Demo: Open language overview demo in VS Code_
 
 ## Migrating to TS
 
+* Change our `jsconfig.json` file to a `tsconfig.json` file
+ * Set `allowJs` compiler option to `true`
 * Selectively converting JS files to TS
 * Ability to add optional types
 * Ability to define interfaces
@@ -158,6 +203,28 @@ _Demo: Open language overview demo in VS Code_
 
 * We're currently polluting the global context
 * Wrap our code into namespaces
+
+
+
+
+
+## Debugging
+
+### Source Maps
+
+TODO Show how to use inline sources
+TODO Show that you can set breakpoint in Chrome in your TS files
+
+
+
+
+
+
+
+TODO Should I cover how to use npm to install typings???
+Not sure that this is necessary to do when using VS Code
+
+TODO Remove this???
 
 ## Drawbacks of Adding a tsconfig.json File
 
