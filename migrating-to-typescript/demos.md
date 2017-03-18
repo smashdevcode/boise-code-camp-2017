@@ -40,15 +40,21 @@ Add a `jsconfig.json` file to the root of the project
 }
 ```
 
+CMD+SHIFT+P to open the command palette and select "TypeScript: Reload Project"
+
 And now we can navigate to items in files that aren't currently open!
 
 ## More JS Editor in VS Code
 
 * Peek the definition
 * Find all references
- * Show what happens if we try to use a string-based search to find all references to one of the name properties
- * Symbol-based
+ * Show the trying to find reference to `Version.name` doesn't work
 * Renaming support
+ * Again... mostly works
+ * But unable to rename the `Version.name` property
+* You can also catch certain bugs with
+ * `noFallthroughCasesInSwitch`
+ * `allowUnreachableCode`
 
 ## IntelliSense for External Libraries
 
@@ -123,24 +129,33 @@ And to compile the JS project, run this command:
 tsc -p jsconfig.json
 ```
 
+Or we can press CMD+SHIFT+B in VS Code to configure the task runner
 
+```
+{
+  // See https://go.microsoft.com/fwlink/?LinkId=733558
+  // for the documentation about the tasks.json format
+  "version": "0.1.0",
+  "command": "tsc",
+  "isShellCommand": true,
+  "args": ["-p", "./jsconfig.json"],
+  "showOutput": "silent",
+  "problemMatcher": "$tsc"
+}
+```
 
-TODO Building TS
-  Show how to build from the command line
-  Show how to initiate a build from VS Code
-  Show how to initiate a build as a .NET Core project precompile event???
+Or we can hook into the ASP.NET Core MSBuild precompile build event
 
+```
+<Target Name="PreCompileTarget" BeforeTargets="Build">
+  <Exec Command="tsc -p jsconfig.json" />
+</Target>
+```
 
-
-
-
-## Benefits
+### Benefits
 
 * You can use ES6/ES7 features and have then down compile to ES5
  * This gives us the ability to leverage newer JS features and not worry if they are widely supported
-* You can also catch certain bugs with
- * `noFallthroughCasesInSwitch`
- * `allowUnreachableCode`
 
 ## Why Migrate to TypeScript?
 
@@ -168,7 +183,24 @@ _Demo: Open language overview demo in VS Code_
 
 * Change our `jsconfig.json` file to a `tsconfig.json` file
  * Set `allowJs` compiler option to `true`
-* Selectively converting JS files to TS
+* Update the `tasks.json` file
+
+```
+{
+  // See https://go.microsoft.com/fwlink/?LinkId=733558
+  // for the documentation about the tasks.json format
+  "version": "0.1.0",
+  "command": "tsc",
+  "isShellCommand": true,
+  "args": ["-p", "."],
+  "showOutput": "silent",
+  "problemMatcher": "$tsc"
+}
+```
+
+### Now What Can We Do?
+
+* Selectively convert JS files to TS
 * Ability to add optional types
 * Ability to define interfaces
 
@@ -191,6 +223,9 @@ _Demo: Open language overview demo in VS Code_
  * Show how to configure the compiler to not emit JS
 * Convert the `Framework` constructor function to be a class
  * Update the Version class `supportedFrameworks` property
+* Remove the JSDoc comment on the `addSupportedFramework` function
+ * Now we can use explicit typing
+* JS files can see TS files and vice versa
 
 ### Catching Hard to Find Bugs
 
@@ -199,34 +234,69 @@ _Demo: Open language overview demo in VS Code_
 * And... we get compilation errors!
 * Fix the errors in the data and remove the hack
 
+### What Else?
+
+Update `tsconfig.json` to now allow any implicit `any` data types
+
+```
+{
+  "compilerOptions": {
+    "target": "es5",
+    "allowJs": true,
+    "outDir": "wwwroot/scripts",
+    "noImplicitAny": true
+  },
+  "include": [
+    "Client"
+  ],
+  "typeAcquisition": {
+    "include": [
+      "jquery"
+    ]
+  }
+}
+```
+
+* Improved find all references
+ * Show what happens if we try to use a string-based search to find all references to one of the name properties
+ * Symbol-based
+* Improved renaming support
+
 ### Adding Namespaces
 
 * We're currently polluting the global context
 * Wrap our code into namespaces
-
-
-
-
+* Need to export any item that needs to be callable outside of the current file
 
 ## Debugging
 
 ### Source Maps
 
-TODO Show how to use inline sources
-TODO Show that you can set breakpoint in Chrome in your TS files
+* Configure the TS compiler to emit source maps
+* Use inline sources so that our source maps will get served to the client
 
+```
+{
+  "compilerOptions": {
+    "target": "es5",
+    "allowJs": true,
+    "outDir": "wwwroot/scripts",
+    "noImplicitAny": true,
+    "inlineSourceMap": true,
+    "inlineSources": true
+  },
+  "include": [
+    "Client"
+  ],
+  "typeAcquisition": {
+    "include": [
+      "jquery"
+    ]
+  }
+}
+```
 
-
-
-
-
-
-TODO Should I cover how to use npm to install typings???
-Not sure that this is necessary to do when using VS Code
-
-TODO Remove this???
-
-## Drawbacks of Adding a tsconfig.json File
+## Drawbacks of Using Bower Instead of NPM
 
 Now that we have a tsconfig.json file as part of our project, we need to manually download type definition files for any external JS libraries that we're using.
 

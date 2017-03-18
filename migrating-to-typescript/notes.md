@@ -3,32 +3,13 @@
 
 ## TODO
 
-
-
-Building TS
-  Show how to build from the command line
-  Show how to initiate a build from VS Code
-  Show how to initiate a build as a .NET Core project precompile event
-
-Show how to generate source maps in order to debug in Chrome Dev Tools
-
-Do a runthrough and make sure that everything works
-
 Be prepared to show other issues that will come up when migrating to TS
   Write up examples
 
-
-
-
+Copy over other demos into 'other-demos' folder
 
 Review how you can generate documentation from JSDoc comments
 	https://www.npmjs.com/package/jsdoc
-
-
-
-
-
-
 
 ## Migrating from JavaScript
 
